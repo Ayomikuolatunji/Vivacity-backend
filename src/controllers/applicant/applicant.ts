@@ -25,7 +25,6 @@ class ControllerUtils {
     });
     if (!applicant) {
       throwError("Applicant not found", StatusCodes.NOT_FOUND);
-      return;
     }
     res.status(StatusCodes.OK).json(applicant);
   };
@@ -37,12 +36,22 @@ class ControllerUtils {
       where: { id: applicantId },
       data: { firstName, lastName, email, phone },
     });
-
+    if (!updatedApplicant) {
+      throwError("Failed", StatusCodes.OK);
+    }
     res.status(StatusCodes.OK).json(updatedApplicant);
   };
 
   public static deleteApplicant = async (req: Request, res: Response) => {
     const { applicantId } = req.params;
+    const findApplicant = await prisma.applicant.findUnique({
+      where: {
+        id: applicantId,
+      },
+    });
+    if (!findApplicant) {
+      throwError("Applicant not found", StatusCodes.NOT_FOUND);
+    }
     await prisma.applicant.delete({
       where: { id: applicantId },
     });

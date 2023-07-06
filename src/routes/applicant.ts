@@ -9,7 +9,7 @@ class ApplicantRoutes {
     this.router = Router();
     this.initRoutes();
   }
-  private initRoutes(): void {
+  public initRoutes(): void {
     this.router.post(
       "/awesome/applicant",
       ValidationRules.createApplicant,

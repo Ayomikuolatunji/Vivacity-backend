@@ -39,7 +39,6 @@ ControllerUtils.getApplicant = (req, res) => __awaiter(void 0, void 0, void 0, f
     });
     if (!applicant) {
         (0, requestErrorHandler_1.throwError)("Applicant not found", http_status_codes_1.StatusCodes.NOT_FOUND);
-        return;
     }
     res.status(http_status_codes_1.StatusCodes.OK).json(applicant);
 });
@@ -50,10 +49,21 @@ ControllerUtils.updateApplicant = (req, res) => __awaiter(void 0, void 0, void 0
         where: { id: applicantId },
         data: { firstName, lastName, email, phone },
     });
+    if (!updatedApplicant) {
+        (0, requestErrorHandler_1.throwError)("Failed", http_status_codes_1.StatusCodes.OK);
+    }
     res.status(http_status_codes_1.StatusCodes.OK).json(updatedApplicant);
 });
 ControllerUtils.deleteApplicant = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { applicantId } = req.params;
+    const findApplicant = yield database_1.default.applicant.findUnique({
+        where: {
+            id: applicantId,
+        },
+    });
+    if (!findApplicant) {
+        (0, requestErrorHandler_1.throwError)("Applicant not found", http_status_codes_1.StatusCodes.NOT_FOUND);
+    }
     yield database_1.default.applicant.delete({
         where: { id: applicantId },
     });

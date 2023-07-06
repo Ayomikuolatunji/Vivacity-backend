@@ -4,7 +4,8 @@ CREATE TABLE "Applicant" (
     "firstName" TEXT NOT NULL,
     "lastName" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "phone" TEXT NOT NULL
+    "phone" TEXT NOT NULL,
+    "imageUrl" TEXT NOT NULL
 );
 
 -- CreateIndex
